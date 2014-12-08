@@ -8,49 +8,35 @@ module.exports = yeoman.generators.Base.extend({
     this.pkg = require('../package.json');
   },
 
-  prompting: function () {
-    var done = this.async();
+  prompting : {
+    askFor: function () {
+      var done = this.async();
 
-    // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the dandy' + chalk.red('Oniui') + ' generator!'
-    ));
+      this.log(yosay('Create your own ' + chalk.red('Yeoman') + ' generator with superpowers!'));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+      var prompts = [{
+        name: 'widgetName',
+        message: "What's the name your widget?",
+        default: 'widgetName'
+      }];
 
-    this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
+      this.prompt(prompts, function (props) {
+        this.widgetName = props.widgetName;
 
-      done();
-    }.bind(this));
+        done();
+      }.bind(this));
+    }
   },
 
   writing: {
     app: function () {
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
-      );
-    },
-
-    projectfiles: function () {
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
-      );
+      this.mkdir(this.widgetName);
+      this.template("avalon.x.js.tpl",this.widgetName+"/avalon."+this.widgetName+".js");
+      this.template("avalon.x.html.tpl",this.widgetName+"/avalon."+this.widgetName+".html");
+      this.template("avalon.x.css.tpl",this.widgetName+"/avalon."+this.widgetName+".css");
+      this.template("avalon.x.ext.html.tpl",this.widgetName+"/avalon."+this.widgetName+".ext.html");
+      this.template("_bower.json","bower.json");
+      this.template("_package.json","package.json");
     }
   },
 
