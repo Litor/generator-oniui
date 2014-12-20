@@ -3,43 +3,65 @@
  * @enName <%=widgetName %>
  * @introduce
  */
-define(["avalon",
-  "text!./avalon.<%=widgetName %>.html",
-  "css!./avalon.<%=widgetName %>.css"
-], function(avalon, template) {
+define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widgetName %>.css"], function(avalon, template) {
+    /**
+    *   templateArr = template.split('MS_OPTION_EJS');
+    */
+    var widget = avalon.ui.<%=widgetName %> = function (element, data, vmodels) {
+        var options = data.<%=widgetName %>Options,
+        $element = avalon(element),
+        vmId = data.<%=widgetName %>Id;
+        options.template = options.getTemplate(template, options);
 
-  var widget = avalon.ui.<%=widgetName %> = function (element, data, vmodels) {
-    var options = data.<%=widgetName %>Options, $element = avalon(element), pager = options.pager, vmId = data.<%=widgetName %>Id;
-    options.template = options.getTemplate(template, options);
+        var inited, id = +(new Date());
 
-    var vmodel = avalon.define(vmId, function(vm){
-      avalon.mix(vm, options);
-      vm.widgetElement = element
-      vm.$skipArray = ["widgetElement", "template"];
-      var inited, id = +(new Date());
-      vm.$uid = id;
+        var vm = avalon.mix({
+            $id : vmId,
+            widgetElement : element,
+            $skipArray : ["widgetElement", "template"],
+            $uid : id,
+            $init :  function (continueScan) {
+                if (inited) return;
+                inited = true;
+                vmodel.template = vmodel.template.replace(/\{\{MS_COMBOX_ID\}\}/g, id);
+                element.innerHTML = vmodel.template;
 
-      vm.$init = function (continueScan) {
-        if(inited) return;
-        inited = true;
-        vmodel.template = vmodel.template.replace(/\{\{MS_COMBOX_ID\}\}/g, id);
+                if (continueScan) {
+                    continueScan();
+                }
+            }
+        }, options);
 
-        element.innerHTML = vmodel.template;
-        if(continueScan){
-          continueScan();
+        var vmodel = avalon.define(vm);
+
+        return vmodel;
+    };
+
+    widget.defaults = {
+        getTemplate: function (str, options) {
+            return str;
         }
+    };
+
+    return avalon;
+});
+
+/**
+  //遍历数组元素，依次处理
+  [].forEach(function (dataItem, index) {
+      if (dataItem.selected) {
+          selectedData.push(dataItem);
       }
+  });
 
-    });
+  //监听view model中属性的变化
+  vmodel.$watch("scrollerHeight", function(n) {
 
-    return vmodel;
+  //解析字符串模板为dom对象
+  var dom = avalon.parseHTML(options.template);
+  });
 
-  };
-  widget.defaults = {
-    getTemplate: function (str, options) {
-      return str;
-    }
-  };
-
-  return avalon;
-})
+  //组件嵌套时 外部组件向内部组件传值
+  var duplexVM = avalon.getModel(options.duplex, [vmodel].concat(vmodels)),
+  duplexArr = duplexVM && duplexVM[1][duplexVM[0]]
+*/
