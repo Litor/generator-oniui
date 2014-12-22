@@ -38,6 +38,7 @@ define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widget
     };
 
     widget.defaults = {
+        test:'helloworld!',
         getTemplate: function (str, options) {
             return str;
         }
@@ -64,4 +65,9 @@ define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widget
   //组件嵌套时 外部组件向内部组件传值
   var duplexVM = avalon.getModel(options.duplex, [vmodel].concat(vmodels)),
   duplexArr = duplexVM && duplexVM[1][duplexVM[0]]
+
+   //新建dom元素
+   popup = popup || document.createElement("div");
+   popup.innerHTML = options.template;
+   document.body.appendChild(popup)
 */

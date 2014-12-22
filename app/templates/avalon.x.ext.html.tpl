@@ -19,9 +19,7 @@
 </head>
 <body>
 <style>
-    metadata{
-        display: none;
-    }
+
 </style>
 <div ms-controller="test">
     <div ms-widget="<%=widgetName %>">
