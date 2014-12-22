@@ -48,7 +48,7 @@ define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widget
 });
 
 /**
-  //遍历数组元素，依次处理
+  //遍历数组元素，依次处理111
   [].forEach(function (dataItem, index) {
       if (dataItem.selected) {
           selectedData.push(dataItem);
