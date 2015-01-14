@@ -3,7 +3,7 @@
  * @enName <%=widgetName %>
  * @introduce
  */
-define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widgetName %>.css"], function(avalon, template) {
+define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widgetName %>.css", "../avalon.getModel.js"], function(avalon, template) {
     /**
     *   templateArr = template.split('MS_OPTION_EJS');
     */
@@ -70,4 +70,10 @@ define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widget
    popup = popup || document.createElement("div");
    popup.innerHTML = options.template;
    document.body.appendChild(popup)
+
+   //抽取data-tooltip-text、data-tooltip-attr属性，组成一个配置对象
+   var widgetData = avalon.getWidgetData(elem, widget)
+
+   //绑定父作用域属性（只能绑定基本数据类型及函数等，对象和数组不支持）
+   avalon.bindParentVM(vmodels, vmodel, "value");
 */
