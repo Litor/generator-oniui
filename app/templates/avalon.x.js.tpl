@@ -18,7 +18,8 @@ define(["avalon", "text!./avalon.<%=widgetName %>.html", "css!./avalon.<%=widget
         var vm = avalon.mix({
             $id : vmId,
             widgetElement : element,
-            $skipArray : ["widgetElement", "template"],
+            defaults:widget.defaults,
+            $skipArray : ["defaults", "widgetElement", "template"],
             $uid : id,
             $init :  function (continueScan) {
                 if (inited) return;
